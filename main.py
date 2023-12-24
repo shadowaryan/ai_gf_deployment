@@ -8,9 +8,9 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 load_dotenv()
 
 
-runpod.api_key = os.getenv("RUNPOD_API_KEY")
+runpod.api_key = os.getenv('RUNPOD_API_KEY')
 
-endpoint_id = os.getenv("ENDPOINT_ID")
+endpoint_id = os.getenv('ENDPOINT_ID')
 endpoint = runpod.Endpoint(endpoint_id)
 
 

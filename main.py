@@ -43,16 +43,34 @@ def get_api_data(params):
                 status_url = f'https://api.runpod.ai/v2/{server_id}/status/{status_id}'
                 resp = requests.get(status_url,headers=headers)
                 print("requseting")
-                while True:
+                time_req_sec = 0
+                max_time_req_sec = 60
+                while time_req_sec<=max_time_req_sec:
                     print(resp.status_code,resp.json()['status'])
-                    if resp.status_code == 200 and resp.json()['status'] == 'COMPLETED':
+                    if resp.json()['status'] == 'COMPLETED':
                         print("resquest code == 200")
                         return resp.json()['output']['outputs']
-                    else:
+                    elif resp.json()['status'] == 'IN_PROGRESS':
                         time.sleep(2)
                         status_url = f'https://api.runpod.ai/v2/{server_id}/status/{status_id}'
                         resp = requests.get(status_url,headers=headers)
+                        max_time_req_sec = 30
+                        time_req_sec+=1
                         continue
+                    elif resp.json()['status'] == 'IN_QUEUE':
+                        time.sleep(2)
+                        status_url = f'https://api.runpod.ai/v2/{server_id}/status/{status_id}'
+                        resp = requests.get(status_url,headers=headers)
+                        time_req_sec+=1
+                        continue 
+                print(resp.status_code,resp.json()['status'])
+                try:
+                    status_url = f'https://api.runpod.ai/v2/{server_id}/cancel/{status_id}'
+                    resp = requests.post(status_url,headers=headers)
+                    resp_status = resp.json()['status']
+                    return f'request time out,{resp_status}'
+                except:
+                    return f'request time out,please try again'
             else:
                 # If the request was not successful, handle the error
                 print(f"API request failed with status code: {response.status_code}")

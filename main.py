@@ -114,7 +114,7 @@ async def ask_command(update, context):
         # resp = get_api_data(params)[0].split('\n')
         # response = ''
         resp = get_api_data(params)
-        print("Output--\n"+resp)
+        print("Output--\n",resp)
         await update.message.reply_text("Received message from command:")
 
         for x in resp:

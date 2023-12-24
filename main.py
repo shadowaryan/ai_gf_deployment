@@ -117,6 +117,8 @@ async def ask_command(update, context):
         
         if isinstance(resp, str):
             await update.message.reply_text(resp)
+        elif resp == None:
+            await update.message.reply_text("403 Forbidden,None")
         else:
             for x in resp:
                 await update.message.reply_text(x.strip())

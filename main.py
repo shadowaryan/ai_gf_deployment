@@ -62,8 +62,9 @@ def get_api_data(params):
             print(f"An error occurred: {str(e)}")
             return None
 
-async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(f'Hello {update.effective_user.first_name}')
+
 
 
 async def ask_command(update, context):
@@ -107,7 +108,8 @@ def main():
 
     app = ApplicationBuilder().token(bot_token).build()
 
-    app.add_handler(CommandHandler("hello", hello))
+    # app.add_handler(CommandHandler("hello", hello))
+    app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("ask", ask_command))
 
 
